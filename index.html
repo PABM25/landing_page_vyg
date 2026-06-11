@@ -253,8 +253,76 @@
         </div>
     </section>
 
-    <!-- Footer / Contacto -->
-    <footer id="contacto" class="bg-vg-dark text-vg-light pt-16 pb-8 border-t-8 border-vg-tan">
+    <!-- Contacto y Cotizaciones -->
+    <section id="contacto" class="py-16 bg-vg-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center mb-12">
+                <h2 class="text-base text-vg-red font-semibold tracking-wide uppercase">Comunícate con Nosotros</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-vg-dark sm:text-4xl">
+                    Contacto y Cotizaciones
+                </p>
+                <p class="mt-4 text-xl text-gray-600">
+                    ¿Tienes un proyecto en mente o necesitas una cotización de materiales? Escríbenos y nuestro equipo te responderá a la brevedad.
+                </p>
+            </div>
+
+            <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-xl overflow-hidden">
+                <div class="px-6 py-8 sm:p-10">
+                    <form action="#" method="POST" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="first-name" class="block text-sm font-medium text-gray-700">Nombre completo</label>
+                                <div class="mt-1">
+                                    <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="py-3 px-4 block w-full shadow-sm focus:ring-vg-orange focus:border-vg-orange border-gray-300 rounded-md bg-gray-50 text-gray-900 border">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+                                <div class="mt-1">
+                                    <input id="email" name="email" type="email" autocomplete="email" class="py-3 px-4 block w-full shadow-sm focus:ring-vg-orange focus:border-vg-orange border-gray-300 rounded-md bg-gray-50 text-gray-900 border">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700">Teléfono (opcional)</label>
+                            <div class="mt-1">
+                                <input type="text" name="phone" id="phone" autocomplete="tel" class="py-3 px-4 block w-full shadow-sm focus:ring-vg-orange focus:border-vg-orange border-gray-300 rounded-md bg-gray-50 text-gray-900 border">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="subject" class="block text-sm font-medium text-gray-700">Asunto</label>
+                            <div class="mt-1">
+                                <select id="subject" name="subject" class="py-3 px-4 block w-full shadow-sm focus:ring-vg-orange focus:border-vg-orange border-gray-300 rounded-md bg-gray-50 text-gray-900 border">
+                                    <option>Cotización de Proyecto / Obra</option>
+                                    <option>Cotización de Materiales</option>
+                                    <option>Duda General</option>
+                                    <option>Otro</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700">Mensaje / Detalles del Proyecto</label>
+                            <div class="mt-1">
+                                <textarea id="message" name="message" rows="4" class="py-3 px-4 block w-full shadow-sm focus:ring-vg-orange focus:border-vg-orange border border-gray-300 rounded-md bg-gray-50 text-gray-900"></textarea>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-vg-red hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vg-red transition-all">
+                                Enviar Mensaje
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-vg-dark text-vg-light pt-16 pb-8 border-t-8 border-vg-tan">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
                 <!-- Brand -->
