@@ -268,18 +268,18 @@
 
             <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-xl overflow-hidden">
                 <div class="px-6 py-8 sm:p-10">
-                    <form action="#" method="POST" class="space-y-6">
+                    <form id="form-contacto" action="#" method="POST" class="space-y-6" novalidate>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
                                 <label for="first-name" class="block text-sm font-medium text-gray-700">Nombre completo</label>
                                 <div class="mt-1">
-                                    <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="py-3 px-4 block w-full shadow-sm focus:ring-vg-orange focus:border-vg-orange border-gray-300 rounded-md bg-gray-50 text-gray-900 border">
+                                    <input type="text" name="first-name" id="first-name" required autocomplete="given-name" class="py-3 px-4 block w-full shadow-sm focus:ring-vg-orange focus:border-vg-orange border-gray-300 rounded-md bg-gray-50 text-gray-900 border">
                                 </div>
                             </div>
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
                                 <div class="mt-1">
-                                    <input id="email" name="email" type="email" autocomplete="email" class="py-3 px-4 block w-full shadow-sm focus:ring-vg-orange focus:border-vg-orange border-gray-300 rounded-md bg-gray-50 text-gray-900 border">
+                                    <input id="email" name="email" type="email" required autocomplete="email" class="py-3 px-4 block w-full shadow-sm focus:ring-vg-orange focus:border-vg-orange border-gray-300 rounded-md bg-gray-50 text-gray-900 border">
                                 </div>
                             </div>
                         </div>
@@ -306,10 +306,13 @@
                         <div>
                             <label for="message" class="block text-sm font-medium text-gray-700">Mensaje / Detalles del Proyecto</label>
                             <div class="mt-1">
-                                <textarea id="message" name="message" rows="4" class="py-3 px-4 block w-full shadow-sm focus:ring-vg-orange focus:border-vg-orange border border-gray-300 rounded-md bg-gray-50 text-gray-900"></textarea>
+                                <textarea id="message" name="message" required rows="4" class="py-3 px-4 block w-full shadow-sm focus:ring-vg-orange focus:border-vg-orange border border-gray-300 rounded-md bg-gray-50 text-gray-900"></textarea>
                             </div>
                         </div>
 
+                        <!-- Campo trampa contra bots: oculto para personas -->
+                        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
+                        <p id="form-estado" class="hidden text-sm rounded-md px-4 py-3" role="status"></p>
                         <div>
                             <button type="submit" class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-vg-red hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vg-red transition-all">
                                 Enviar Mensaje
@@ -378,5 +381,66 @@
         </div>
     </footer>
 
+
+    <script>
+      // Formulario de contacto.
+      // Para recibir los mensajes en tu correo sin servidor, crea un formulario en
+      // https://formspree.io y pega su URL en FORM_ENDPOINT. Si queda vacío, el
+      // formulario abre el correo del visitante con el mensaje ya escrito.
+      (function () {
+        const FORM_ENDPOINT = '';
+        const CORREO_CONTACTO = 'contacto@construccionesvyg.com';
+
+        const form = document.getElementById('form-contacto');
+        const estado = document.getElementById('form-estado');
+        const boton = form.querySelector('button[type="submit"]');
+
+        function mostrar(texto, ok) {
+          estado.textContent = texto;
+          estado.className = 'text-sm rounded-md px-4 py-3 ' + (ok ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800');
+        }
+
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+          }
+          const datos = Object.fromEntries(new FormData(form));
+          if (datos._gotcha) return;
+
+          if (!FORM_ENDPOINT) {
+            const cuerpo = [
+              'Nombre: ' + datos['first-name'],
+              'Correo: ' + datos.email,
+              datos.phone ? 'Teléfono: ' + datos.phone : '',
+              '',
+              datos.message,
+            ].filter(function (l, i) { return l !== '' || i === 3; }).join('\n');
+            window.location.href = 'mailto:' + CORREO_CONTACTO +
+              '?subject=' + encodeURIComponent(datos.subject) +
+              '&body=' + encodeURIComponent(cuerpo);
+            mostrar('Abrimos tu aplicación de correo con el mensaje listo para enviar.', true);
+            return;
+          }
+
+          boton.disabled = true;
+          try {
+            const respuesta = await fetch(FORM_ENDPOINT, {
+              method: 'POST',
+              headers: { Accept: 'application/json' },
+              body: new FormData(form),
+            });
+            if (!respuesta.ok) throw new Error(respuesta.status);
+            form.reset();
+            mostrar('¡Gracias! Recibimos tu mensaje y te responderemos a la brevedad.', true);
+          } catch (err) {
+            mostrar('No pudimos enviar el mensaje. Escríbenos a ' + CORREO_CONTACTO + '.', false);
+          } finally {
+            boton.disabled = false;
+          }
+        });
+      })();
+    </script>
 </body>
 </html>
